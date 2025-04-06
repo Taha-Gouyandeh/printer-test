@@ -1,6 +1,5 @@
 import React, { ReactNode, useRef } from "react";
 
-
 export const useLabelGenerator = () => {
   let device: any = undefined;
 
@@ -25,13 +24,10 @@ export const useLabelGenerator = () => {
       // }
       //@ts-ignore because usb in navigator not fond in ts
       device = await navigator.usb.requestDevice({
-        filters: [{ vendorId: 11652 }] // Replace with real vendorId
+        filters: [{ vendorId: 11652 }], // Replace with real vendorId
       });
 
-      await device.open();
-    
-      return device
-
+      return device;
     } else {
       return device;
     }
@@ -60,7 +56,7 @@ export const useLabelGenerator = () => {
 
       const rawData = encoder.encode(zplCommand);
       const buffer = new Uint8Array(rawData).buffer;
-      // await device.open();
+      await device.open();
       await device.selectConfiguration(1);
       await device.claimInterface(0);
       await device.transferOut(1, buffer);
@@ -183,7 +179,7 @@ export const useLabelGenerator = () => {
       addressX + 10,
       addressY + 20,
       addressWidth - 20,
-      36,
+      36
     );
 
     // کد پستی
@@ -191,14 +187,14 @@ export const useLabelGenerator = () => {
     ctx.fillText(
       "کد پستی:",
       addressX + addressWidth - 10,
-      addressY + addressHeight - 20,
+      addressY + addressHeight - 20
     );
     ctx.fillStyle = "black";
     ctx.font = contentFont;
     ctx.fillText(
       "1322654444",
       addressX + addressWidth - 120,
-      addressY + addressHeight - 20,
+      addressY + addressHeight - 20
     );
 
     // --- بخش گیرنده ---
@@ -213,7 +209,7 @@ export const useLabelGenerator = () => {
       receiverY,
       receiverWidth,
       receiverHeight,
-      16,
+      16
     );
 
     ctx.font = titleFont;
@@ -227,7 +223,7 @@ export const useLabelGenerator = () => {
       receiverX + 10,
       receiverY + 60,
       receiverWidth - 20,
-      36,
+      36
     );
 
     // --- بخش شماره همراه ---
@@ -257,14 +253,14 @@ export const useLabelGenerator = () => {
       deliveryY,
       deliveryWidth,
       deliveryHeight,
-      16,
+      16
     );
 
     ctx.font = "20px geistIranYekan";
     ctx.fillText(
       "زمان تحویل:",
       deliveryX + deliveryWidth - 10,
-      deliveryY + deliveryHeight / 2,
+      deliveryY + deliveryHeight / 2
     );
 
     ctx.fillStyle = "black";
@@ -272,7 +268,7 @@ export const useLabelGenerator = () => {
     ctx.fillText(
       "پنج شنبه 1403/03/07- ساعت 08 الی 15",
       deliveryX + deliveryWidth - 110,
-      deliveryY + deliveryHeight / 2,
+      deliveryY + deliveryHeight / 2
     );
     return canvas;
   };
@@ -283,7 +279,7 @@ export const useLabelGenerator = () => {
     y: number,
     width: number,
     height: number,
-    radius: number,
+    radius: number
   ) => {
     ctx.beginPath();
     ctx.moveTo(x + radius, y);
@@ -305,7 +301,7 @@ export const useLabelGenerator = () => {
     x: number,
     y: number,
     maxWidth: number,
-    lineHeight: number,
+    lineHeight: number
   ) => {
     const words = text.split(" ");
     let line = "";
@@ -331,8 +327,18 @@ export const useLabelGenerator = () => {
   const testPrint = async () => {
     await requestDevice();
   };
+
+  const clickFunc = async () => {
+    //@ts-ignore
+    device = await navigator.usb.requestDevice({
+      filters: [{ vendorId: 11652 }], // Replace with real vendorId
+    });
+    device.open();
+  };
+
   const LabelCanvas: ReactNode = (
     <>
+      <button onClick={clickFunc}>click</button>
       <canvas ref={canvasRef} className={"hidden"} />
     </>
   );
