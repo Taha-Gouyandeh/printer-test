@@ -5,16 +5,16 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/(.*)", // This applies to all routes
+        source: '/(.*)',
         headers: [
           {
-            key: "Permissions-Policy",
-            value: "fullscreen=*; usb=none; payment=self https://printer-test-ten.vercel.app",
-          },
-        ],
-      },
+            key: 'Permissions-Policy',
+            value: 'usb=(self)'
+          }
+        ]
+      }
     ];
-  },
+  }
 };
 
 export default nextConfig;
