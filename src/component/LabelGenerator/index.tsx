@@ -24,7 +24,7 @@ export const useLabelGenerator = () => {
       //   return device;
       // }
       //@ts-ignore because usb in navigator not fond in ts
-      const device = await navigator.usb.requestDevice({
+      device = await navigator.usb.requestDevice({
         filters: [{ vendorId: 11652 }] // Replace with real vendorId
       });
     
