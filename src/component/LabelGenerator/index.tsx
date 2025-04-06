@@ -4,22 +4,32 @@ import React, { ReactNode, useRef } from "react";
 export const useLabelGenerator = () => {
   let device: any = undefined;
 
-
   const connectToPrinter = async () => {
     if (device === undefined) {
-      try {
-        // Request a serial port (this will show a device chooser to the user)
-        //@ts-ignore because usb in navigator not fond in ts
-        const port = await navigator.serial.requestPort({
-          filters: [{ usbVendorId: 11652 }] // Replace with the correct vendorId
-        });
-        await port.open({ baudRate: 9600 }); // Adjust baudRate if needed
-        device = port;
-        return device;
-      } catch (error) {
-        console.error("Error connecting to the printer:", error);
-        window.alert("پیرینتر متصل نمیباشد");
-      }
+      // //@ts-ignore because usb in navigator not fond in ts
+      // const devices = await navigator.usb.getDevices();
+      // console.log(devices);
+      // const printer = devices.find(
+      //   (item: any) => item.manufacturerName === "IDPrinter",
+      // );
+      // if (printer === undefined) {
+      //   window.alert("پیرینتر متصل نمیباشد")
+      // } else {
+      //   //@ts-ignore because usb in navigator not fond in ts
+      //   device = await navigator.usb.requestDevice({
+      //     filters: [
+      //       { vendorId: printer?.vendorId, productId: printer?.productId },
+      //     ],
+      //   });
+      //   return device;
+      // }
+      //@ts-ignore because usb in navigator not fond in ts
+      device = await navigator.usb.requestDevice({
+        filters: [{ vendorId: 11652 }] // Replace with real vendorId
+      });
+    
+      return device
+
     } else {
       return device;
     }
