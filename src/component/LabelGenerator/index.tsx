@@ -27,6 +27,8 @@ export const useLabelGenerator = () => {
       device = await navigator.usb.requestDevice({
         filters: [{ vendorId: 11652 }] // Replace with real vendorId
       });
+
+      await device.open();
     
       return device
 
@@ -58,7 +60,7 @@ export const useLabelGenerator = () => {
 
       const rawData = encoder.encode(zplCommand);
       const buffer = new Uint8Array(rawData).buffer;
-      await device.open();
+      // await device.open();
       await device.selectConfiguration(1);
       await device.claimInterface(0);
       await device.transferOut(1, buffer);
