@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Permissions-Policy',
-            value: 'usb=(self)'
+            value: 'usb=self'  
           }
         ]
       }
