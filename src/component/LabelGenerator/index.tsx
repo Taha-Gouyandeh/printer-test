@@ -7,7 +7,7 @@ export const useLabelGenerator = () => {
 
   const connectToPrinter = async () => {
     if (device === undefined) {
-      //@ts-ignore because usb in navigator not fond in ts
+      //@ts-expect-error: because usb in navigator not fond in ts
       const devices = await navigator.usb.getDevices();
       console.log(devices);
       const printer = devices.find(
@@ -16,7 +16,7 @@ export const useLabelGenerator = () => {
       if (printer === undefined) {
         window.alert("پیرینتر متصل نمیباشد")
       } else {
-        //@ts-ignore because usb in navigator not fond in ts
+        //@ts-expect-error: because usb in navigator not fond in ts
         device = await navigator.usb.requestDevice({
           filters: [
             { vendorId: printer?.vendorId, productId: printer?.productId },
