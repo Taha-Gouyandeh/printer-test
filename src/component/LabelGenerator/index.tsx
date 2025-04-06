@@ -6,23 +6,30 @@ export const useLabelGenerator = () => {
 
   const connectToPrinter = async () => {
     if (device === undefined) {
+      // //@ts-ignore because usb in navigator not fond in ts
+      // const devices = await navigator.usb.getDevices();
+      // console.log(devices);
+      // const printer = devices.find(
+      //   (item: any) => item.manufacturerName === "IDPrinter",
+      // );
+      // if (printer === undefined) {
+      //   window.alert("پیرینتر متصل نمیباشد")
+      // } else {
+      //   //@ts-ignore because usb in navigator not fond in ts
+      //   device = await navigator.usb.requestDevice({
+      //     filters: [
+      //       { vendorId: printer?.vendorId, productId: printer?.productId },
+      //     ],
+      //   });
+      //   return device;
+      // }
       //@ts-ignore because usb in navigator not fond in ts
-      const devices = await navigator.usb.getDevices();
-      console.log(devices);
-      const printer = devices.find(
-        (item: any) => item.manufacturerName === "IDPrinter",
-      );
-      if (printer === undefined) {
-        window.alert("پیرینتر متصل نمیباشد")
-      } else {
-        //@ts-ignore because usb in navigator not fond in ts
-        device = await navigator.usb.requestDevice({
-          filters: [
-            { vendorId: printer?.vendorId, productId: printer?.productId },
-          ],
-        });
-        return device;
-      }
+      const device = await navigator.usb.requestDevice({
+        filters: [{ vendorId: 11652 }] // Replace with real vendorId
+      });
+    
+      return device
+
     } else {
       return device;
     }
